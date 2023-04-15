@@ -16,6 +16,13 @@
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
-    "noFallthroughCasesInSwitch": false
+    "noFallthroughCasesInSwitch": false,
+    "paths": {
+      "@/*": ["src/*"],
+      "@sql/*": ["src/assets/sql/*"],
+      "@type/*": ["src/assets/types/*"],
+      "@utils/*": ["src/assets/utils/*"],
+      "@exception/*": ["src/assets/exception/*"],
+    }
   }
 }

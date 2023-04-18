@@ -1,13 +1,14 @@
 import * as sql from 'mssql';
+import { ConsoleLogger } from '@nestjs/common';
+
 require('dotenv').config();
-const env = process.env;
-const clc = require('cli-color');
+const { MS_SQL_USER, MS_SQL_SERVER } = process.env;
 
 const config = {
-  user: `${env.MS_SQL_USER}_db`,
-  password: `${env.MS_SQL_USER}`,
-  server: `stud-mssql.sttec.yar.ru`,
-  database: `${env.MS_SQL_USER}_db`,
+  user: `user${MS_SQL_USER}_db`,
+  password: `user${MS_SQL_USER}`,
+  server: MS_SQL_SERVER,
+  database: `user${MS_SQL_USER}_db`,
   options: {
     trustedconnection: true,
     enableArithAbort: true,
@@ -18,64 +19,36 @@ const config = {
 };
 
 class MsSqlManager {
-  private messagePrefix: string = clc.blueBright('[MSSQL]');
-
-  private logTime(): string {
-    const date = new Date();
-
-    const refactorDate = (input: number): string => {
-      if (input < 10) {
-        return `0${input}`;
-      }
-
-      return `${input}`;
-    };
-
-    const day = (): string => refactorDate(date.getDate());
-    const month = (): string => refactorDate(date.getMonth() + 1);
-    const year = (): string => refactorDate(date.getFullYear());
-
-    const hours = (): string => refactorDate(date.getHours());
-    const minutes = (): string => refactorDate(date.getMinutes());
-    const seconds = (): string => refactorDate(date.getSeconds());
-
-    return clc.blueBright(
-      `[${day()}.${month()}.${year()}] [${hours()}:${minutes()}:${seconds()}]`,
-    );
-  }
+  private logger: ConsoleLogger = new ConsoleLogger();
 
   public async execQuery<QResult>(query: string): Promise<QResult> {
-    console.log(
-      '========================== Query start ==========================',
-    );
-
-    let pool;
+    let pool = undefined;
 
     // prettier-ignore
     try {
-      pool = await sql.connect(config);
-      console.log(`${this.messagePrefix} ${this.logTime()} SQL Server connected...`);
-
-      let res = await pool.request().query(query).then(res => {
-        console.log(`${this.messagePrefix} ${this.logTime()} Request fulfilled successfully...`);
-        return res;
+      pool = await sql.connect(config).then((connection) => {
+        this.logger.log(`Pool opened`);
+        return connection;
       });
 
-      console.log(`${this.messagePrefix} ${this.logTime()} Find ${res?.recordsets[0].length} results.`);
+      let res = await pool
+        .request()
+        .query(query)
+        .then((res) => {
+          this.logger.log(`Request fulfilled successfully...`);
+          return res;
+        });
 
-      console.log('=========================== Query end ===========================');
-      return res.recordsets;
+      this.logger.log(`Find ${res?.recordsets[0].length} results.`);
+      return res.recordsets[0] as QResult;
     }
     catch (error) {
-      console.log(`${this.messagePrefix} ${this.logTime()} ${clc.red('mathus-error')}: ${error}`);
+      this.logger.error(`${error}`);
     }
     finally {
-      pool.close();
+      pool?.close();
+      this.logger.log(`Pool closed.`);
     }
-
-    console.log(
-      '========================== Query end ==========================',
-    );
   }
 }
 

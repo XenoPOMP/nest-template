@@ -22,7 +22,7 @@
       "@sql/*": ["src/assets/sql/*"],
       "@type/*": ["src/assets/types/*"],
       "@utils/*": ["src/assets/utils/*"],
-      "@exception/*": ["src/assets/exception/*"],
+      "@exceptions/*": ["src/assets/exceptions/*"],
     }
   }
 }

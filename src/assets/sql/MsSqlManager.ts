@@ -1,5 +1,6 @@
 import * as sql from 'mssql';
 import { ConsoleLogger } from '@nestjs/common';
+import ISqlManager from '@sql/ISqlManager';
 
 require('dotenv').config();
 const { MS_SQL_USER, MS_SQL_SERVER } = process.env;
@@ -18,8 +19,8 @@ const config = {
   port: 38325,
 };
 
-class MsSqlManager {
-  private logger: ConsoleLogger = new ConsoleLogger();
+class MsSqlManager implements ISqlManager {
+  logger: ConsoleLogger = new ConsoleLogger();
 
   public async execQuery<QResult>(query: string): Promise<QResult> {
     let pool = undefined;

@@ -1,8 +1,29 @@
 {
   "parser": "typescript",
-  "trailingComma": "all",
   "tabWidth": 2,
-  "semi": true,
   "singleQuote": true,
-  "jsxSingleQuote": true
+  "jsxSingleQuote": true,
+  "semi": true,
+  "useTabs": true,
+  "arrowParens": "avoid",
+  "importOrder": [
+    "<THIRD_PARTY_MODULES>",
+    "^@components/(.*)$",
+    "^@contexts/(.*)$",
+    "^@pages/(.*)$",
+    "^@redux/(.*)$",
+    "^@styles/(.*)$",
+    "^@providers/(.*)$",
+    "^@ui/(.*)$",
+    "^@hooks/(.*)$",
+    "^@types/(.*)$",
+    "^@utils/(.*)$",
+    "^@media/(.*)$",
+    "^@services/(.*)$",
+    "^@errors/(.*)$",
+    "^../(.*)$",
+    "^./(.*)$"
+  ],
+  "importOrderSeparation": true,
+  "importOrderSortSpecifiers": true
 }

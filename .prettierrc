@@ -8,22 +8,11 @@
   "arrowParens": "avoid",
   "importOrder": [
     "<THIRD_PARTY_MODULES>",
-    "^@components/(.*)$",
-    "^@contexts/(.*)$",
-    "^@pages/(.*)$",
-    "^@redux/(.*)$",
-    "^@styles/(.*)$",
-    "^@providers/(.*)$",
-    "^@ui/(.*)$",
-    "^@hooks/(.*)$",
-    "^@types/(.*)$",
-    "^@utils/(.*)$",
-    "^@media/(.*)$",
-    "^@services/(.*)$",
-    "^@errors/(.*)$",
+    "^@/(.*)$",
     "^../(.*)$",
     "^./(.*)$"
   ],
   "importOrderSeparation": true,
-  "importOrderSortSpecifiers": true
+  "importOrderSortSpecifiers": true,
+  "importOrderParserPlugins": ["typescript", "decorators-legacy"]
 }

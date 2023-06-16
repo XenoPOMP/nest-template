@@ -12,6 +12,10 @@ dist
 dist-ssr
 *.local
 
+# Env
+# Un-comment lines bellow when you will use this template
+# .env*
+
 # Vitest
 /coverage
 !/coverage/

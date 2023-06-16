@@ -1,32 +1,33 @@
-import * as sql from 'mssql';
 import { ConsoleLogger } from '@nestjs/common';
-import ISqlManager from '@sql/ISqlManager';
+import * as sql from 'mssql';
+
+import ISqlManager from '@/assets/sql/ISqlManager';
 
 require('dotenv').config();
 const { MS_SQL_USER, MS_SQL_SERVER } = process.env;
 
 const config = {
-  user: `user${MS_SQL_USER}_db`,
-  password: `user${MS_SQL_USER}`,
-  server: MS_SQL_SERVER,
-  database: `user${MS_SQL_USER}_db`,
-  options: {
-    trustedconnection: true,
-    enableArithAbort: true,
-    instancename: '',
-    trustServerCertificate: true,
-  },
-  port: 38325,
+	user: `user${MS_SQL_USER}_db`,
+	password: `user${MS_SQL_USER}`,
+	server: MS_SQL_SERVER,
+	database: `user${MS_SQL_USER}_db`,
+	options: {
+		trustedconnection: true,
+		enableArithAbort: true,
+		instancename: '',
+		trustServerCertificate: true,
+	},
+	port: 38325,
 };
 
 class MsSqlManager implements ISqlManager {
-  logger: ConsoleLogger = new ConsoleLogger();
+	logger: ConsoleLogger = new ConsoleLogger();
 
-  public async execQuery<QResult>(query: string): Promise<QResult> {
-    let pool = undefined;
+	public async execQuery<QResult>(query: string): Promise<QResult> {
+		let pool = undefined;
 
-    // prettier-ignore
-    try {
+		// prettier-ignore
+		try {
       pool = await sql.connect(config).then((connection) => {
         this.logger.log(`Pool opened`);
         return connection;
@@ -50,7 +51,7 @@ class MsSqlManager implements ISqlManager {
       pool?.close();
       this.logger.log(`Pool closed.`);
     }
-  }
+	}
 }
 
 export { MsSqlManager as default };

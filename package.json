@@ -27,7 +27,6 @@
     "mssql": "^9.1.1",
     "mysql": "^2.18.1",
     "mysql2": "^3.2.3",
-    "nest-mysql": "^0.0.7",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.2.0"
   },
